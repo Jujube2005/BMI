@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/client"
+  engineType      = "library"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int         @id @default(autoincrement())
+  username           String      @unique
+  email              String?     @unique
+  password_hash      String
+  role               String      @default("USER") // USER, ADMIN
+  reset_token        String?
+  reset_token_expiry DateTime?
+  created_at         DateTime    @default(now())
+  records            BMIRecord[]
+}
+
+model BMIRecord {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  user        User     @relation(fields: [user_id], references: [id])
+  weight      Float
+  height      Float
+  bmi         Float
+  recorded_at DateTime @default(now())
+}
