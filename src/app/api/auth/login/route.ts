@@ -6,22 +6,22 @@ import { encrypt } from "@/lib/auth";
 import { cookies } from "next/headers";
 
 const loginSchema = z.object({
-  username: z.string(),
+  email: z.string().email(),
   password: z.string(),
 });
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { username, password } = loginSchema.parse(body);
+    const { email, password } = loginSchema.parse(body);
 
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { email },
     });
 
     if (!user) {
       return NextResponse.json(
-        { error: "Invalid username or password" },
+        { error: "Invalid email or password" },
         { status: 401 }
       );
     }
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     if (!isValid) {
       return NextResponse.json(
-        { error: "Invalid username or password" },
+        { error: "Invalid email or password" },
         { status: 401 }
       );
     }
