@@ -24,11 +24,17 @@ export default function LoginPage() {
         router.push('/');
         router.refresh();
       } else {
-        const data = await res.json();
-        setError(data.error || 'Login failed');
+        let errorMessage = 'Login failed';
+        try {
+          const data = await res.json();
+          errorMessage = data.error || errorMessage;
+        } catch {
+          errorMessage = `Server Error (${res.status})`;
+        }
+        setError(errorMessage);
       }
     } catch (err) {
-      setError('An error occurred');
+      setError('An error occurred. Please check your connection.');
     }
   };
 
