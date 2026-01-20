@@ -82,6 +82,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -108,6 +111,11 @@ exports.Prisma.BMIRecordScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -144,9 +152,7 @@ const config = {
         "native": true
       }
     ],
-    "previewFeatures": [
-      "driverAdapters"
-    ],
+    "previewFeatures": [],
     "sourceFilePath": "C:\\Users\\HP\\Documents\\trae_projects\\bmi3\\web\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
@@ -160,7 +166,8 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -169,8 +176,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/client\"\n  engineType      = \"library\"\n  previewFeatures = [\"driverAdapters\"]\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 Int         @id @default(autoincrement())\n  username           String      @unique\n  email              String?     @unique\n  password_hash      String\n  role               String      @default(\"USER\") // USER, ADMIN\n  reset_token        String?\n  reset_token_expiry DateTime?\n  created_at         DateTime    @default(now())\n  records            BMIRecord[]\n}\n\nmodel BMIRecord {\n  id          Int      @id @default(autoincrement())\n  user_id     Int\n  user        User     @relation(fields: [user_id], references: [id])\n  weight      Float\n  height      Float\n  bmi         Float\n  recorded_at DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "ddfb40573aa1238c8e76b1dc29302613c9a2f6abf626b8f8d59e17f6ab571eef",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/client\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id                 Int         @id @default(autoincrement())\n  username           String      @unique\n  email              String?     @unique\n  password_hash      String\n  role               String      @default(\"USER\") // USER, ADMIN\n  reset_token        String?\n  reset_token_expiry DateTime?\n  created_at         DateTime    @default(now())\n  records            BMIRecord[]\n}\n\nmodel BMIRecord {\n  id          Int      @id @default(autoincrement())\n  user_id     Int\n  user        User     @relation(fields: [user_id], references: [id])\n  weight      Float\n  height      Float\n  bmi         Float\n  recorded_at DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "15db6197f26b2b87426bb392b18e8c28758fce60b68605406977a4fd91655b06",
   "copyEngine": true
 }
 

@@ -40,6 +40,18 @@ async function main() {
 
     const records = [
       {
+        weight: 85,
+        height: 180,
+        bmi: 85 / ((180/100) * (180/100)),
+        recorded_at: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) // 2 months ago
+      },
+      {
+        weight: 82,
+        height: 180,
+        bmi: 82 / ((180/100) * (180/100)),
+        recorded_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // 1 month ago
+      },
+      {
         weight: 80,
         height: 180,
         bmi: 80 / ((180/100) * (180/100)),
@@ -49,12 +61,6 @@ async function main() {
         weight: 78,
         height: 180,
         bmi: 78 / ((180/100) * (180/100)),
-        recorded_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000) // 3 days ago
-      },
-      {
-        weight: 76,
-        height: 180,
-        bmi: 76 / ((180/100) * (180/100)),
         recorded_at: new Date(Date.now() - 1 * 60 * 60 * 1000) // 1 hour ago
       }
     ];

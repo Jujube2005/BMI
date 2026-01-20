@@ -2,27 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
-  PrismaClientKnownRequestError,
-  PrismaClientUnknownRequestError,
-  PrismaClientRustPanicError,
-  PrismaClientInitializationError,
-  PrismaClientValidationError,
-  NotFoundError,
-  getPrismaClient,
-  sqltag,
-  empty,
-  join,
-  raw,
   Decimal,
-  Debug,
   objectEnumValues,
   makeStrictEnum,
-  Extensions,
-  warnOnce,
-  defineDmmfProperty,
   Public,
   getRuntime
-} = require('./runtime/wasm.js')
+} = require('./runtime/index-browser.js')
 
 
 const Prisma = {}
@@ -39,28 +24,76 @@ Prisma.prismaVersion = {
   engine: "69d742ee20b815d88e17e54db4a2a7a3b30324e3"
 }
 
-Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
-Prisma.PrismaClientUnknownRequestError = PrismaClientUnknownRequestError
-Prisma.PrismaClientRustPanicError = PrismaClientRustPanicError
-Prisma.PrismaClientInitializationError = PrismaClientInitializationError
-Prisma.PrismaClientValidationError = PrismaClientValidationError
-Prisma.NotFoundError = NotFoundError
+Prisma.PrismaClientKnownRequestError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`PrismaClientKnownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)};
+Prisma.PrismaClientUnknownRequestError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`PrismaClientUnknownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.PrismaClientRustPanicError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`PrismaClientRustPanicError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.PrismaClientInitializationError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`PrismaClientInitializationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.PrismaClientValidationError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`PrismaClientValidationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.NotFoundError = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`NotFoundError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
 Prisma.Decimal = Decimal
 
 /**
  * Re-export of sql-template-tag
  */
-Prisma.sql = sqltag
-Prisma.empty = empty
-Prisma.join = join
-Prisma.raw = raw
+Prisma.sql = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`sqltag is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.empty = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`empty is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.join = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`join is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.raw = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`raw is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
 Prisma.validator = Public.validator
 
 /**
 * Extensions
 */
-Prisma.getExtensionContext = Extensions.getExtensionContext
-Prisma.defineExtension = Extensions.defineExtension
+Prisma.getExtensionContext = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`Extensions.getExtensionContext is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
+Prisma.defineExtension = () => {
+  const runtimeName = getRuntime().prettyName;
+  throw new Error(`Extensions.defineExtension is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
+In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
+)}
 
 /**
  * Shorthand utilities for JSON filtering
@@ -75,12 +108,14 @@ Prisma.NullTypes = {
   AnyNull: objectEnumValues.classes.AnyNull
 }
 
-
-
 /**
  * Enums
  */
+
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -109,6 +144,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -119,83 +159,34 @@ exports.Prisma.ModelName = {
   User: 'User',
   BMIRecord: 'BMIRecord'
 };
+
 /**
- * Create the Client
+ * This is a stub Prisma Client that will error at runtime if called.
  */
-const config = {
-  "generator": {
-    "name": "client",
-    "provider": {
-      "fromEnvVar": null,
-      "value": "prisma-client-js"
-    },
-    "output": {
-      "value": "C:\\Users\\HP\\Documents\\trae_projects\\bmi3\\web\\src\\generated\\client",
-      "fromEnvVar": null
-    },
-    "config": {
-      "engineType": "library"
-    },
-    "binaryTargets": [
-      {
-        "fromEnvVar": null,
-        "value": "windows",
-        "native": true
-      }
-    ],
-    "previewFeatures": [
-      "driverAdapters"
-    ],
-    "sourceFilePath": "C:\\Users\\HP\\Documents\\trae_projects\\bmi3\\web\\prisma\\schema.prisma",
-    "isCustomOutput": true
-  },
-  "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
-  },
-  "relativePath": "../../../prisma",
-  "clientVersion": "5.19.1",
-  "engineVersion": "69d742ee20b815d88e17e54db4a2a7a3b30324e3",
-  "datasourceNames": [
-    "db"
-  ],
-  "activeProvider": "sqlite",
-  "inlineDatasources": {
-    "db": {
-      "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": null
-      }
-    }
-  },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/client\"\n  engineType      = \"library\"\n  previewFeatures = [\"driverAdapters\"]\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 Int         @id @default(autoincrement())\n  username           String      @unique\n  email              String?     @unique\n  password_hash      String\n  role               String      @default(\"USER\") // USER, ADMIN\n  reset_token        String?\n  reset_token_expiry DateTime?\n  created_at         DateTime    @default(now())\n  records            BMIRecord[]\n}\n\nmodel BMIRecord {\n  id          Int      @id @default(autoincrement())\n  user_id     Int\n  user        User     @relation(fields: [user_id], references: [id])\n  weight      Float\n  height      Float\n  bmi         Float\n  recorded_at DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "ddfb40573aa1238c8e76b1dc29302613c9a2f6abf626b8f8d59e17f6ab571eef",
-  "copyEngine": true
-}
-config.dirname = '/'
+class PrismaClient {
+  constructor() {
+    return new Proxy(this, {
+      get(target, prop) {
+        let message
+        const runtime = getRuntime()
+        if (runtime.isEdge) {
+          message = `PrismaClient is not configured to run in ${runtime.prettyName}. In order to run Prisma Client on edge runtime, either:
+- Use Prisma Accelerate: https://pris.ly/d/accelerate
+- Use Driver Adapters: https://pris.ly/d/driver-adapters
+`;
+        } else {
+          message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
+        }
+        
+        message += `
+If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password_hash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reset_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reset_token_expiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"records\",\"kind\":\"object\",\"type\":\"BMIRecord\",\"relationName\":\"BMIRecordToUser\"}],\"dbName\":null},\"BMIRecord\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BMIRecordToUser\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"height\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"bmi\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"recorded_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
-defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
-config.engineWasm = {
-  getRuntime: () => require('./query_engine_bg.js'),
-  getQueryEngineWasmModule: async () => {
-    const loader = (await import('#wasm-engine-loader')).default
-    const engine = (await loader).default
-    return engine 
+        throw new Error(message)
+      }
+    })
   }
 }
 
-config.injectableEdgeEnv = () => ({
-  parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
-  }
-})
-
-if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
-  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
-}
-
-const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
-Object.assign(exports, Prisma)
 
+Object.assign(exports, Prisma)
